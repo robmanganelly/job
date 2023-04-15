@@ -4,9 +4,7 @@ import { API_URL, API_VERSION } from './di-tokens';
 import { ApiServiceModel } from './apiService.model';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ApiService implements ApiServiceModel {
   urlAddress: string;
 
