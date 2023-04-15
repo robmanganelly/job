@@ -15,6 +15,11 @@ export class ListSkeletonComponent {
   queryParam = {serverRequirement: 'true'};
 
   @Input() title: string ="";
+  @Input() next: string ="";
+
+  get nextRoute(){
+    return ['/list'+this.next]
+  }
 
 
 }
