@@ -47,8 +47,8 @@
       </div>
       <h2 *ngIf="serverRequirement">Once the server is up and running you can use and test one the following options</h2>
         <nav class="actions" *ngIf="serverRequirement">
-          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['list1']">Use Version 1</a>
-          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['list2']">Use Version 2</a>
+          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['/list1']">Use Version 1</a>
+          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['/list2']">Use Version 2</a>
         </nav>
     </div>
   </div>
