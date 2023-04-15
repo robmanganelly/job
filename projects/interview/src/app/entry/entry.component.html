@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="box">
+    <h2 class="title">This is the version selector</h2>
+    <div class="details">
+      <p *ngIf="!serverRequirement">
+        Due to requirements of task, I decided to implement two versions of the
+        list selector. In order to run this application, you need to run the mock server I created for this task.
+        for that matter, use the following command <small>(click on the command to copy)</small>:
+        <code (click)="cpCommand()">{{dockerCommand}}</code> Or you can run the server manually by following the instructions in the
+        <a href="https://github.com/robmanganelly/akamai-interview-server/blob/master/README.md">README</a> file.
+      </p>
+      <h3 *ngIf="versionHelp">List Versions</h3>
+      <ul *ngIf="versionHelp">
+        <li>
+          <span>Version 1</span>
+          <ul>
+            <li class="pro">loads resources as indicated in the task</li>
+            <li class="cons">does not implement pagination</li>
+            <li class="pro">works well when payloads are small</li>
+            <li class="pro">
+              does not depend on any change from the server, since it processes
+              the data "as is"
+            </li>
+            <li class="cons">
+              will cause performance issues once the payload grows
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span>Version 2</span>
+          <ul>
+            <li class="pro">loads resources using pagination</li>
+            <li class="pro">works well when payloads are small</li>
+            <li class="pro">
+              does not depend on any change from the server, since it processes
+              the data "as is"
+            </li>
+            <li class="cons">
+              will cause performance issues once the payload grows
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div id="server-cb">
+        <mat-checkbox color="accent" [(ngModel)]="serverRequirement">The Server is running</mat-checkbox>
+        <mat-checkbox color="primary" [(ngModel)]="versionHelp">See Version Details</mat-checkbox>
+      </div>
+      <h2 *ngIf="serverRequirement">Once the server is up and running you can use and test one the following options</h2>
+        <nav class="actions" *ngIf="serverRequirement">
+          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['list1']">Use Version 1</a>
+          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['list2']">Use Version 2</a>
+        </nav>
+    </div>
+  </div>
+</div>

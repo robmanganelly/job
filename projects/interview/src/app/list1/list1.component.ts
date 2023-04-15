@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ApiService } from '../services/api.service';
+import { ApiServiceProvider } from '../services/di-tokens';
 // import { Api2Service } from '../services/api2.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { ApiService } from '../services/api.service';
   imports: [CommonModule, MatInputModule, MatFormFieldModule],
   templateUrl: './list1.component.html',
   styleUrls: ['./list1.component.scss'],
+  providers: [{ provide: 'API_VERSION', useValue: 'v1'},ApiServiceProvider ]
   })
 export class List1Component {
-  constructor(@Inject(ApiService)private apiService: ApiService) { }
+  constructor(private apiService: ApiService) { }
 }
