@@ -3,6 +3,9 @@
     <mat-icon> arrow_back_ios</mat-icon> Home
   </a>
   <span class="horizontal-spacer"></span>
+  <a [routerLink]="nextRoute"   class="nav-item">
+    {{'Version '+ next}}<mat-icon> arrow_forward_ios</mat-icon>
+  </a>
 </mat-toolbar>
 <ng-content #content></ng-content>
 post skeleton
