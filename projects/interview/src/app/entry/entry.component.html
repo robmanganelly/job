@@ -42,9 +42,8 @@
         </li>
       </ul>
       <div id="server-cb">
-        <mat-checkbox  [(ngModel)]="serverRequirement">The Server is running</mat-checkbox>
-        <!-- <mat-checkbox >See Version Details</mat-checkbox> -->
-        <mat-slide-toggle  [(ngModel)]="versionHelp">Version Details</mat-slide-toggle>
+        <mat-checkbox color="primary"  [(ngModel)]="serverRequirement">The Server is running</mat-checkbox>
+        <mat-slide-toggle color="primary"  [(ngModel)]="versionHelp">{{versionHelp ? "Hide ":"Display "}}Version Details</mat-slide-toggle>
       </div>
       <h2 *ngIf="serverRequirement">Once the server is up and running you can use and test one the following options</h2>
         <nav class="actions" *ngIf="serverRequirement">
