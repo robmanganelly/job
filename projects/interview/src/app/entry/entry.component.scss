@@ -43,4 +43,12 @@ code:hover{
   margin: 5px;
   color: black !important;
   background-color: #3f51b5;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 5px;
+  :last-child{
+    margin-left: 15px;
+  }
 }

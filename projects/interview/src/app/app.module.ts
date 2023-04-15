@@ -7,6 +7,7 @@ import { EntryComponent } from './entry/entry.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgModule } from '@angular/core';
 @NgModule({
   declarations: [AppComponent, EntryComponent],
@@ -18,6 +19,7 @@ import { NgModule } from '@angular/core';
     FormsModule,
     HttpClientModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
