@@ -16,6 +16,8 @@ import {
 } from 'rxjs';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TableData } from '../models/TableData.model';
+import { MatIconModule } from '@angular/material/icon';
+import { SelectComponent } from '../select/select.component';
 // import { Api2Service } from '../services/api2.service';
 
 @Component({
@@ -24,9 +26,11 @@ import { TableData } from '../models/TableData.model';
   imports: [
     CommonModule,
     MatInputModule,
+    MatIconModule,
     MatFormFieldModule,
     ListSkeletonComponent,
     ReactiveFormsModule,
+    SelectComponent,
   ],
   templateUrl: './list1.component.html',
   styleUrls: ['./list1.component.scss'],
