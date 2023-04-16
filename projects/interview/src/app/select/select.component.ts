@@ -1,22 +1,29 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CdkMenuModule } from '@angular/cdk/menu';
+import { CdkMenuModule } from '@angular/cdk/menu';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { SubSink } from 'subsink';
 import { debounceTime, tap } from 'rxjs';
-import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import {
+  MatMenu,
+  MatMenuItem,
+  MatMenuModule,
+  MatMenuTrigger,
+} from '@angular/material/menu';
 @Component({
   selector: 'app-select',
   standalone: true,
@@ -32,8 +39,8 @@ import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
-export class SelectComponent implements OnInit, AfterViewInit,  OnDestroy {
-  private hashTable = new Map<string,any>();
+export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
+  private hashTable = new Map<string, any>();
   private sub = new SubSink();
 
   protected __items: any[] = [];
@@ -41,19 +48,18 @@ export class SelectComponent implements OnInit, AfterViewInit,  OnDestroy {
 
   //view props
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
-  @ViewChild(MatMenu) menuPanel!: MatMenu;
-  @ViewChild(MatMenu) menuContent!: MatMenu;
-  @ViewChild(MatIcon) closeIcon!: MatIcon;
+  @ViewChildren('button.matMenuItem') menuItem: MatMenuItem[] = [];
+  @ViewChild(MatIcon) suffixIcon!: MatIcon;
 
   // prop bindings
   @Input() filterFn!: Function;
+  @Input() items!: any[];
   /**
    * The number of milliseconds to debounce the search.
    * Use this property to set the reactivity of the search bar.
    * On Heavy queries, it may cause performance issues.
    */
   @Input() reactivity: number = 250;
-  @Input() items!:  any[];
   @Input() valFn!: (v: any) => string;
 
   //two way binding
@@ -63,79 +69,97 @@ export class SelectComponent implements OnInit, AfterViewInit,  OnDestroy {
   // event binding
   @Output() change: EventEmitter<string> = new EventEmitter<string>();
 
-
   constructor() {}
 
-  get dirty(): boolean {
-    return this.searchBar.dirty;
+  get iconState(): 'close' | 'delete' | 'search' {
+    try {
+      if (this.trigger.menuOpen && this.searchBar.dirty) {
+        return 'delete';
+      } else if (!this.trigger.menuOpen && this.searchBar.dirty) {
+        return 'close';
+      } else {
+        return 'search';
+      }
+    } catch {
+      return 'search';
+    }
   }
 
-  onClear(){
-    this.searchBar.reset('');
+  onClear() {
+    this.searchBar.reset();
   }
 
   ngAfterViewInit() {
-    this.sub.sink = this.searchBar.valueChanges.
-    // pipe(tap(_=>this.menuPanel.resetActiveItem()))
-    subscribe(
-      (x)=>{
-    //     if(!this.trigger.menuOpen && this.__items.length > 0)this.trigger.openMenu();
-        if(this.__items.length === 0) this.trigger.closeMenu();
+    this.suffixIcon._elementRef.nativeElement.addEventListener('click', () => {
+      switch (this.iconState) {
+        case 'close':
+          this.searchBar.reset();
+          this.trigger.closeMenu();
+          break;
+        case 'delete':
+          this.trigger.closeMenu();
+          break;
+        case 'search':
+        default:
+          if (!this.trigger.menuOpen) {
+            this.trigger.openMenu();
+          }
+          break;
       }
-    )
-
-    this.closeIcon._elementRef.nativeElement.addEventListener('click',()=>{
-      if (this.dirty){
-        this.onClear();
-        this.trigger.closeMenu();
-        this.menuPanel.resetActiveItem();
-      }else{
-        this.trigger.openMenu();
-      }
-    })
-
-
+    });
   }
 
   ngOnInit(): void {
     this.__items = [...this.items];
 
-    this.sub.sink = this.searchBar.valueChanges.pipe(
-      tap((v)=>!!v ? this.change.emit(v): null), // value emission should not be debounced
-      debounceTime(this.reactivity)
-    ).subscribe((v: string|null) => {
-      this.processValue(!!v ? v : '');
-    });
+    this.sub.sink = this.searchBar.valueChanges
+      .pipe(
+        tap((v) => (!!v ? this.change.emit(v) : null)), // value emission should not be debounced
+        debounceTime(this.reactivity)
+      )
+      .subscribe((v: string | null) => {
+        this.processValue(!!v ? v : '');
+      });
   }
 
   get filteredItems(): string[] {
-    return this.__items.map(item=>this.valFn(item) );
+    return this.__items.map((item) => this.valFn(item));
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  onSelectOption(v: string){
+  onClickInput(){
+    try{
+    if (this.iconState === 'search') this.suffixIcon._elementRef.nativeElement.click();
+    else if (this.iconState === 'close') this.trigger.openMenu();
+    }catch{
+      console.log('click error: view not ready');
+    }
+  }
+
+  onSelectOption(v: string) {
     this.selectedChange.emit(v);
     this.searchBar.setValue(v);
   }
 
-
   private processValue(searchTerm: string) {
     //process using hash table, to avoid recalculating values on complex operations.
-    let key = this.__keyMaker(this.items,searchTerm);
+    let key = this.__keyMaker(this.items, searchTerm);
     if (this.hashTable.has(key)) {
-      console.log('using cache')
+      console.log('using cache');
       this.__items = this.hashTable.get(key);
-    }else{
-      console.log('calculating')
-      this.__items = this.items.filter((item)=>this.filterFn(item,searchTerm));
-      this.hashTable.set(key,this.__items);
+    } else {
+      console.log('calculating');
+      this.__items = this.items.filter((item) =>
+        this.filterFn(item, searchTerm)
+      );
+      this.hashTable.set(key, this.__items);
     }
   }
 
-  private __keyMaker(o:any, s:string):string{
-    return s.trim()+JSON.stringify(o);
+  private __keyMaker(o: any, s: string): string {
+    return s.trim() + JSON.stringify(o);
   }
 }

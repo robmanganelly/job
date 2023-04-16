@@ -1,8 +1,9 @@
 <mat-form-field appearance="outline">
   <mat-label>Search</mat-label>
-  <input matInput type="text" [formControl]="searchBar" [matMenuTriggerFor]="menu"/>
-  <mat-icon matSuffix>{{dirty ? 'close' : 'search'}}</mat-icon>
+  <input matInput type="text" [formControl]="searchBar" (click)="onClickInput()" />
+  <mat-icon matSuffix >{{iconState}}</mat-icon>
 </mat-form-field>
+<div [matMenuTriggerFor]="menu" ></div>
 <mat-menu #menu matMenu class="menu-class" >
     <ng-template matMenuContent>
       <button
