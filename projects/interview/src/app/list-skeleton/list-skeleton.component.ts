@@ -8,20 +8,28 @@ import { Observable } from 'rxjs';
 import { StateService } from '../services/state.service';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-list-skeleton',
   standalone: true,
   imports: [
     CommonModule,
-    MatToolbarModule,
-    MatIconModule,
-    RouterModule,
-    MatRadioModule,
-    MatButtonModule,
     DataTableComponent,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatRadioModule,
+    MatToolbarModule,
+    RouterModule,
   ],
   templateUrl: './list-skeleton.component.html',
   styleUrls: ['./list-skeleton.component.scss'],
+  providers:[{provide: ApiService, useClass: ApiService}]
 })
 export class ListSkeletonComponent {
   @Input() title: string = 'titleHERe';
@@ -32,5 +40,19 @@ export class ListSkeletonComponent {
 
   get nextRoute() {
     return ['/list' + this.next];
+  }
+
+  constructor(private api: ApiService) {}
+
+  actions = [
+    { rule: 'Add Entries', options: ['10', '20', '200'] },
+    { rule: 'Limit Entries to', options: ['2', '20', '50', '100'] },
+    { rule: 'Reset Data', options: ['Reset'] },
+  ].map(item=>({...item, call: this.callServiceWith.bind(this)}))
+
+  callServiceWith(rule: string, option: string){
+    let _option = option === 'Reset' as 'Reset' ? option : Number(option);
+    let _rule = this.actions.map(i=>i.rule).indexOf(rule);
+    this.api.handleData(_rule, _option);
   }
 }

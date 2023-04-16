@@ -22,3 +22,10 @@ mat-toolbar{
   margin-bottom: 20px;
   padding: 0 40px;
 }
+
+.action-group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 15px;
+}

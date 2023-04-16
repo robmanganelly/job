@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ApiService } from '../services/api.service';
-import { ApiServiceProvider } from '../services/di-tokens';
 import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
 import { StateService } from '../services/state.service';
 import { Observable } from 'rxjs';
@@ -20,7 +19,7 @@ import { Observable } from 'rxjs';
   ],
   templateUrl: './list1.component.html',
   styleUrls: ['./list1.component.scss'],
-  providers: [{ provide: 'API_VERSION', useValue: 'v1' }, ApiServiceProvider],
+  providers: [{ provide: ApiService, useClass: ApiService }],
 })
 export class List1Component {
   data: Observable<any[]>; //TODO implementation of strongly typed Observable

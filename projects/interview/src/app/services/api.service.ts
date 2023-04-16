@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { API_URL, API_VERSION } from './di-tokens';
-import { ApiServiceModel } from './apiService.model';
+import { API_URL } from './di-tokens';
 import { Observable } from 'rxjs';
 
-@Injectable()
-export class ApiService implements ApiServiceModel {
+@Injectable(
+  {providedIn: 'root'},
+)
+export class ApiService {
   urlAddress: string;
+  version: string = 'v1';
 
   constructor(
-    @Inject(API_VERSION) public version: string,
     @Inject(API_URL) public baseUrl: string,
     private http: HttpClient
   ) {
@@ -23,6 +24,11 @@ export class ApiService implements ApiServiceModel {
   }
   getResource(resource: string): Observable<any> {
     return this.http.get(`${this.baseUrl}`+ resource);
+  }
+
+  // this method will be only implemented here, since is not required in lists.
+  handleData(rule: number, option: 'Reset'| number){
+    alert('received data '+ rule.toString() + '  ' + option.toString())
   }
 
 }
