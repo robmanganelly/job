@@ -3,7 +3,7 @@
   <input matInput type="text" [formControl]="searchBar" (click)="onClickInput()" />
   <mat-icon matSuffix >{{iconState}}</mat-icon>
 </mat-form-field>
-<div [matMenuTriggerFor]="menu" ></div>
+<div id="menu--trigger" [matMenuTriggerFor]="menu" ></div>
 <mat-menu #menu matMenu class="menu-class" >
     <ng-template matMenuContent>
       <button
