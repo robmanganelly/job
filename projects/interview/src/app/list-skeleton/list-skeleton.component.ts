@@ -44,7 +44,7 @@ export class ListSkeletonComponent {
 
   constructor(private api: ApiService) {
     this.api.executeCRUD.subscribe(([rule, option])=>{
-      alert(rule + ' ' + option);
+      // alert(rule + ' ' + option);
       this.showSecondRow = false;
     });
   }
