@@ -1,7 +1,20 @@
 <app-list-skeleton next="1" title="2">
   <div class="container">
     <div class="list-box">
-      <app-select></app-select>
+      <app-select
+      [(selected)]="selected"
+      [items]="items"
+      [valFn]="valFn"
+      [filterFn]="filterFn"
+      (update)="onUpdate($event)"
+      ></app-select>
     </div>
-  </div>
+  <div>selected: {{selected}}</div>
+  <hr>
+  <div>items: {{items}}</div>
+  <hr>
+  <div>event: {{output}}</div>
+
+</div>
+
 </app-list-skeleton>
