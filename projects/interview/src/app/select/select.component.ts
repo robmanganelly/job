@@ -12,11 +12,11 @@ import { CommonModule } from '@angular/common';
 import {CdkMenuModule } from '@angular/cdk/menu';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SubSink } from 'subsink';
 import { debounceTime, tap } from 'rxjs';
-import { MatMenuModule, MatMenuTrigger, MenuPositionX } from '@angular/material/menu';
+import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'app-select',
   standalone: true,
@@ -32,7 +32,7 @@ import { MatMenuModule, MatMenuTrigger, MenuPositionX } from '@angular/material/
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
-export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SelectComponent implements OnInit, AfterViewInit,  OnDestroy {
   private hashTable = new Map<string,any>();
   private sub = new SubSink();
 
@@ -40,7 +40,10 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   protected searchBar = new FormControl('');
 
   //view props
-  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;;
+  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+  @ViewChild(MatMenu) menuPanel!: MatMenu;
+  @ViewChild(MatMenu) menuContent!: MatMenu;
+  @ViewChild(MatIcon) closeIcon!: MatIcon;
 
   // prop bindings
   @Input() filterFn!: Function;
@@ -62,11 +65,36 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor() {}
-  ngAfterViewInit(): void {
-    // this.trigger._handleKeydown = (ev: KeyboardEvent) => {
-    //   if (ev.key === ' ' || ev.key === 'Spacebar') {
-    //   }
-    // };
+
+  get dirty(): boolean {
+    return this.searchBar.dirty;
+  }
+
+  onClear(){
+    this.searchBar.reset('');
+  }
+
+  ngAfterViewInit() {
+    this.sub.sink = this.searchBar.valueChanges.
+    // pipe(tap(_=>this.menuPanel.resetActiveItem()))
+    subscribe(
+      (x)=>{
+    //     if(!this.trigger.menuOpen && this.__items.length > 0)this.trigger.openMenu();
+        if(this.__items.length === 0) this.trigger.closeMenu();
+      }
+    )
+
+    this.closeIcon._elementRef.nativeElement.addEventListener('click',()=>{
+      if (this.dirty){
+        this.onClear();
+        this.trigger.closeMenu();
+        this.menuPanel.resetActiveItem();
+      }else{
+        this.trigger.openMenu();
+      }
+    })
+
+
   }
 
   ngOnInit(): void {
@@ -90,6 +118,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSelectOption(v: string){
     this.selectedChange.emit(v);
+    this.searchBar.setValue(v);
   }
 
 
@@ -108,10 +137,5 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private __keyMaker(o:any, s:string):string{
     return s.trim()+JSON.stringify(o);
-  }
-
-  preventDefaultSpace(ev: Event){
-    ev.preventDefault();
-    console.log(';yupi')
   }
 }

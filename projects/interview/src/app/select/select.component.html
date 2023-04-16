@@ -1,22 +1,16 @@
 <mat-form-field appearance="outline">
   <mat-label>Search</mat-label>
-  <input
-    matInput
-    type="text"
-    [formControl]="searchBar"
-    [matMenuTriggerFor]="menu"
-  />
-  <mat-icon matSuffix>search</mat-icon>
+  <input matInput type="text" [formControl]="searchBar" [matMenuTriggerFor]="menu"/>
+  <mat-icon matSuffix>{{dirty ? 'close' : 'search'}}</mat-icon>
 </mat-form-field>
-<mat-menu #menu matMenu class="menu-class">
-  <ng-template matMenuContent>
-    <button
+<mat-menu #menu matMenu class="menu-class" >
+    <ng-template matMenuContent>
+      <button
       aria-label="Select an option"
-      mat-menu-item
-      (click)="onSelectOption(item)"
-      *ngFor="let item of filteredItems"
-    >
-      {{ item }}
-    </button>
-  </ng-template>
+    mat-menu-item
+    (click)="onSelectOption(item)"
+    *ngFor="let item of filteredItems">
+    {{item}}</button>
+    </ng-template>
+
 </mat-menu>
