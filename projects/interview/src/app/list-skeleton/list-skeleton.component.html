@@ -4,15 +4,23 @@
       <mat-icon> arrow_back_ios</mat-icon> Home
     </a>
     <span id="title">{{"Version "+title}}</span>
-    <span
+    <button mat-button
         (click)="showSecondRow = !showSecondRow"
-        id="actions">Actions<mat-icon>{{ !showSecondRow ? 'expand_more' : 'expand_less'}}</mat-icon></span>
+        id="actions">Actions<mat-icon>{{ !showSecondRow ? 'expand_more' : 'expand_less'}}</mat-icon></button>
     <span class="horizontal-spacer"></span>
     <a [routerLink]="nextRoute"   class="nav-item">
       {{'Version '+ next}}<mat-icon> arrow_forward_ios</mat-icon>
     </a>
   </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="showSecondRow"></mat-toolbar-row>
+  <mat-toolbar-row *ngIf="showSecondRow">
+    <mat-radio-group>
+      <mat-radio-button color="primary">Add</mat-radio-button>
+      <mat-radio-button color="primary">Replace</mat-radio-button>
+      <mat-radio-button color="primary">Reset</mat-radio-button>
+    </mat-radio-group>
+    <span class="horizontal-spacer"></span>
+    <button mat-button>Apply</button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <!-- <br> -->
