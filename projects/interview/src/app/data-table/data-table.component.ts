@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { StateService } from '../services/state.service';
 import {MatTableModule} from '@angular/material/table';
+import { TableData } from '../models/TableData.model';
 
 @Component({
   selector: 'app-data-table',
@@ -12,7 +13,7 @@ import {MatTableModule} from '@angular/material/table';
   styleUrls: ['./data-table.component.scss'],
 })
 export class DataTableComponent {
-  @Input() dataSource!: Observable<any[]>; //TODO implement strong typing here.
+  @Input() dataSource!: Observable<TableData[]>;
   displayedColumns: string[] = [
     'Id',
     'Account Name',

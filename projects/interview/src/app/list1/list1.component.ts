@@ -5,7 +5,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ApiService } from '../services/api.service';
 import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
 import { StateService } from '../services/state.service';
-import { Observable } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  fromEvent,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TableData } from '../models/TableData.model';
 // import { Api2Service } from '../services/api2.service';
 
 @Component({
@@ -16,15 +26,35 @@ import { Observable } from 'rxjs';
     MatInputModule,
     MatFormFieldModule,
     ListSkeletonComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './list1.component.html',
   styleUrls: ['./list1.component.scss'],
   providers: [{ provide: ApiService, useClass: ApiService }],
 })
 export class List1Component {
-  data: Observable<any[]>; //TODO implementation of strongly typed Observable
+  data: Observable<TableData[]>; //TODO implementation of strongly typed Observable
+  cachedData: TableData[] = []; //TODO implementation of strongly typed Observable same as before
 
-  constructor(private apiService: ApiService, state: StateService) {
-    this.data = state.getFilteredResults();
+  searchBar: FormControl = new FormControl<string>('', [
+    Validators.required,
+    Validators.minLength(3),
+    Validators.maxLength(20),
+  ]);
+
+  constructor(private apiService: ApiService, private state: StateService) {
+    // changes are emitted by this stream, the cycle is subscribed in the template, hence there's no need to unsubscribe.
+    this.data = this.searchBar.valueChanges.pipe(
+      debounceTime(650),
+      map((v) => (this.searchBar.valid ? v : null)),
+      switchMap((v) => (!v ? of(this.cachedData) : this.search(v))),
+      tap((v) => console.log(v)) //keep while in development
+    );
+  }
+
+  private search(value: string): Observable<TableData[]> {
+    return this.state
+      .getFilteredResults(value)
+      .pipe(tap((v) => (this.cachedData = v)));
   }
 }
