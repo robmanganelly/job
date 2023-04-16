@@ -3,44 +3,76 @@
     <h2 class="title">This is the version selector</h2>
     <div class="details">
       <p *ngIf="!serverRequirement">
-        In order to run this application, you need to run the mock server I created for this task.
-        for that matter, use the following command <br><small>(click on the command to copy)</small>:
-        <code (click)="cpCommand()">{{dockerCommand}}</code>
-         Or you can run the server manually by following the instructions in the
-        <a href="https://github.com/robmanganelly/akamai-interview-server/blob/master/README.md">README</a> file.
+        In order to run this application, you need to run the mock server I
+        created for this task. for that matter, use the following command
+        <br /><small>(click on the command to copy)</small>:
+        <code (click)="cpCommand()">{{ dockerCommand }}</code>
+        Or you can run the server manually by following the instructions in the
+        <a
+          href="https://github.com/robmanganelly/akamai-interview-server/blob/master/README.md"
+          >README</a
+        >
+        file.
       </p>
       <h3 *ngIf="versionHelp">List Versions</h3>
       <p>
-        On every case, we use a select (<i>&lt;app-select&gt;&lt;/app-select&gt;</i>) component, which is the main goal of this task.
-        This component is mostly stateless, in order to implement many uncertain data models
-        In future versions, if we had a structure data source, we can implement data models.
+        On every case, we use a select
+        (<i>&lt;app-select&gt;&lt;/app-select&gt;</i>) component, which is the
+        main goal of this task. This component is mostly stateless, in order to
+        implement many uncertain data models In future versions, if we had a
+        structure data source, we can implement data models.
       </p>
       <ul *ngIf="versionHelp">
         <li>
           <span>Version 1</span>
           <ul>
-            <li>Provided data is using the model that was given</li>
-            <li>You can query the server to generate random data and see performance on big payloads</li>
+            <li class="pro">provided data is a string array</li>
+            <li class="pro">
+              the array is fixed, so you can't query the server and see
+              performance on big payloads
+            </li>
           </ul>
         </li>
         <li>
           <span>Version 2</span>
           <ul>
-            <li class="pro">provided data is a string array</li>
-            <li class="pro">the array is fixed, so you can't query the server and see performance on big payloads</li>
+            <li>Provided data is using the model that was given</li>
+            <li>
+              You can query the server to generate random data and see
+              performance on big payloads
+            </li>
           </ul>
         </li>
       </ul>
-      <h4 *ngIf="!serverRequirement">Please be sure your server is running before continue</h4>
+      <h4 *ngIf="!serverRequirement">
+        Please be sure your server is running before continue
+      </h4>
       <div id="server-cb">
-        <mat-checkbox color="primary"  [(ngModel)]="serverRequirement">The Server is running</mat-checkbox>
-        <mat-slide-toggle color="primary"  [(ngModel)]="versionHelp">{{versionHelp ? "Hide ":"Display "}}Version Details</mat-slide-toggle>
+        <mat-checkbox color="primary" [(ngModel)]="serverRequirement"
+          >The Server is running</mat-checkbox
+        >
+        <mat-slide-toggle color="primary" [(ngModel)]="versionHelp"
+          >{{ versionHelp ? "Hide " : "Display " }}Version
+          Details</mat-slide-toggle
+        >
       </div>
-      <h2 *ngIf="serverRequirement">With the server up and running, you can use the following options</h2>
-        <nav class="actions" *ngIf="serverRequirement">
-          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['/list1']">Use Version 1</a>
-          <a [routerLinkActive]="'activeLink'" ariaCurrentWhenActive="page" [routerLink]="['/list2']">Use Version 2</a>
-        </nav>
+      <h2 *ngIf="serverRequirement">
+        With the server up and running, you can use the following options
+      </h2>
+      <nav class="actions" *ngIf="serverRequirement">
+        <a
+          [routerLinkActive]="'activeLink'"
+          ariaCurrentWhenActive="page"
+          [routerLink]="['/list1']"
+          >Use Version 1</a
+        >
+        <a
+          [routerLinkActive]="'activeLink'"
+          ariaCurrentWhenActive="page"
+          [routerLink]="['/list2']"
+          >Use Version 2</a
+        >
+      </nav>
     </div>
   </div>
 </div>
