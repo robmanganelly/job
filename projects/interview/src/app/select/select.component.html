@@ -1,11 +1,22 @@
 <mat-form-field appearance="outline">
   <mat-label>Search</mat-label>
-  <input matInput type="text" [formControl]="searchBar" [cdkMenuTriggerFor]="menu"  />
+  <input
+    matInput
+    type="text"
+    [formControl]="searchBar"
+    [matMenuTriggerFor]="menu"
+  />
   <mat-icon matSuffix>search</mat-icon>
 </mat-form-field>
-
-<ng-template #menu>
-  <div class="example-menu" cdkMenu>
-    <button (click)="onSelectOption(item)" *ngFor="let item of filteredItems" class="example-menu-item" cdkMenuItem>{{item}}</button>
-  </div>
-</ng-template>
+<mat-menu #menu matMenu class="menu-class">
+  <ng-template matMenuContent>
+    <button
+      aria-label="Select an option"
+      mat-menu-item
+      (click)="onSelectOption(item)"
+      *ngFor="let item of filteredItems"
+    >
+      {{ item }}
+    </button>
+  </ng-template>
+</mat-menu>
