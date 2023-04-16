@@ -34,6 +34,9 @@ dependencies:
   rxjs:
     specifier: ~7.8.0
     version: 7.8.0
+  subsink:
+    specifier: ^1.0.2
+    version: 1.0.2
   tslib:
     specifier: ^2.3.0
     version: 2.3.0
@@ -6918,6 +6921,10 @@ packages:
     resolution: {integrity: sha512-BrpvfNAE3dcvq7ll3xVumzjKjZQ5tI1sEUIKr3Uoks0XUl45St3FlatVqef9prk4jRDzhW6WZg+3bk93y6pLjA==}
     engines: {node: '>=6'}
     dev: true
+
+  /subsink@1.0.2:
+    resolution: {integrity: sha512-QFL2oKaA6jVai82dcF0/SIKHNrKJO/wAiHBw9CG576+eBzeg+lZmpG63Tvajx3yg05Hf9ZIZ+zroJutj3hvLNQ==}
+    dev: false
 
   /supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
