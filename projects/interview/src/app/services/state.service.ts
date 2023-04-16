@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { ApiService } from './api.service';
+import { DataResponse } from '../models/ApiResponse.model';
+import { TableData } from '../models/TableData.model';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +21,15 @@ export class StateService {
     this._serverRequirement = value;
   }
 
-  getFilteredResults(){
-    const  fake = {
-      id:1,
-      accountName: "accountName",
-      foundOn: "foundOn",
-      matchedValue: "matchedValue"
-    }
-    return of([fake,fake,fake]);
+  getFilteredResults(value:string){
+    return this.api.getRawData().pipe(map(raw=>this.filterResults(raw,value)));
+  }
+
+
+  private filterResults(data:DataResponse,searchFor:string): TableData[]{ //TODO heavyweight logic here
+    console.log({searchFor,data});
+
+    return [];
   }
 
 }
