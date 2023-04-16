@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,16 @@ export class StateService {
   }
   set serverRequirement(value) {
     this._serverRequirement = value;
+  }
+
+  getRawData(){
+    const  fake = {
+      id:1,
+      accountName: "accountName",
+      foundOn: "foundOn",
+      matchedValue: "matchedValue"
+    }
+    return of([fake,fake,fake]);
   }
 
 }

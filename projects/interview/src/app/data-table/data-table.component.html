@@ -1,0 +1,32 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- <ng-container *ngFor="let item of displayedColumns" matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef> Id. </th>
+    <td mat-cell *matCellDef="let element"> {{element["id"]}} </td>
+  </ng-container> -->
+  <ng-container matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef> Id. </th>
+    <td mat-cell *matCellDef="let element"> {{element["id"]}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Account Name">
+    <th mat-header-cell *matHeaderCellDef>Account Name </th>
+    <td mat-cell *matCellDef="let element"> {{element["accountName"]}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="Found On">
+    <th mat-header-cell *matHeaderCellDef> Found On </th>
+    <td mat-cell *matCellDef="let element"> {{element["foundOn"]}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Matched Value">
+    <th mat-header-cell *matHeaderCellDef> Matched Value </th>
+    <td mat-cell *matCellDef="let element"> {{element["matchedValue"]}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

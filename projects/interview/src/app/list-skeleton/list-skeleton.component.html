@@ -1,11 +1,26 @@
 <mat-toolbar color="primary">
-  <a [routerLink]="['/main']"   class="nav-item">
-    <mat-icon> arrow_back_ios</mat-icon> Home
-  </a>
-  <span class="horizontal-spacer"></span>
-  <a [routerLink]="nextRoute"   class="nav-item">
-    {{'Version '+ next}}<mat-icon> arrow_forward_ios</mat-icon>
-  </a>
+  <mat-toolbar-row>
+    <a [routerLink]="['/main']"   class="nav-item">
+      <mat-icon> arrow_back_ios</mat-icon> Home
+    </a>
+    <span id="title">{{"Version "+title}}</span>
+    <span
+        (click)="showSecondRow = !showSecondRow"
+        id="actions">Actions<mat-icon>{{ !showSecondRow ? 'expand_more' : 'expand_less'}}</mat-icon></span>
+    <span class="horizontal-spacer"></span>
+    <a [routerLink]="nextRoute"   class="nav-item">
+      {{'Version '+ next}}<mat-icon> arrow_forward_ios</mat-icon>
+    </a>
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="showSecondRow"></mat-toolbar-row>
 </mat-toolbar>
+
+<!-- <br> -->
+<!-- ----remove this line after implement content---- -->
+<!-- <br> -->
 <ng-content #content></ng-content>
-post skeleton
+<!-- <br> -->
+<!-- ----remove this line after implement content---- -->
+<!-- <br> -->
+
+<app-data-table [dataSource]="dataSource"></app-data-table>

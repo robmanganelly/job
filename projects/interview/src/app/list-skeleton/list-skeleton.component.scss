@@ -5,6 +5,18 @@
   color: white;
   text-decoration: none;
 }
+
+#title{
+  margin-left: 50px
+}
+#actions{ // keep for more logic
+  margin-left: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+
 mat-toolbar{
   margin-bottom: 20px;
   padding: 0 40px;
