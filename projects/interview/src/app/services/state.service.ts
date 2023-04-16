@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ export class StateService {
 
   _serverRequirement = false;
 
-  constructor() { }
+  constructor(private api: ApiService) {
+   }
 
   get serverRequirement() {
     return this._serverRequirement;
@@ -17,7 +19,7 @@ export class StateService {
     this._serverRequirement = value;
   }
 
-  getRawData(){
+  getFilteredResults(){
     const  fake = {
       id:1,
       accountName: "accountName",

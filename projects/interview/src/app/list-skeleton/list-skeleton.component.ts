@@ -42,16 +42,21 @@ export class ListSkeletonComponent {
     return ['/list' + this.next];
   }
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService) {
+    this.api.executeCRUD.subscribe(([rule, option])=>{
+      alert(rule + ' ' + option);
+      this.showSecondRow = false;
+    });
+  }
 
   actions = [
     { rule: 'Add Entries', options: ['10', '20', '200'] },
     { rule: 'Limit Entries to', options: ['2', '20', '50', '100'] },
     { rule: 'Reset Data', options: ['Reset'] },
-  ].map(item=>({...item, call: this.callServiceWith.bind(this)}))
+  ].map(item=>({...item, call: this.onCRUD.bind(this)}))
 
-  callServiceWith(rule: string, option: string){
-    let _option = option === 'Reset' as 'Reset' ? option : Number(option);
+  onCRUD(rule: string, option: string){
+    let _option = option === 'Reset' ? -1 : Number(option);
     let _rule = this.actions.map(i=>i.rule).indexOf(rule);
     this.api.handleData(_rule, _option);
   }

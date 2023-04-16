@@ -25,6 +25,6 @@ export class List1Component {
   data: Observable<any[]>; //TODO implementation of strongly typed Observable
 
   constructor(private apiService: ApiService, state: StateService) {
-    this.data = state.getRawData();
+    this.data = state.getFilteredResults();
   }
 }
