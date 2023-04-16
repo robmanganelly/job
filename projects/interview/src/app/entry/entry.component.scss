@@ -21,11 +21,6 @@ small{
   padding-top: 50px ;
 }
 
-.activeLink{
-  color: #fff;
-  background-color: teal;
-}
-
 code{
   display: block;
   border : 1px solid #ddd9d9;
@@ -42,7 +37,7 @@ code:hover{
 #server-cb{
   margin: 5px;
   // background-color: teal;
-  background-color: unset;
+  // background-color: unset;
   display: flex;
   width: 100%;
   justify-content: flex-start;
