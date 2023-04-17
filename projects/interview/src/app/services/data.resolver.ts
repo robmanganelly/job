@@ -13,8 +13,8 @@ import { DataResponse } from '../models/ApiResponse.model';
 export class DataResolver {
   constructor(private api: ApiService) {}
   resolve(route: ActivatedRouteSnapshot): Observable<DataResponse| typeof EMPTY> {
-    return this.api.getRawData().pipe(
-      tap(data => console.log(data)),
+    return this.api.getRawData()
+    .pipe(
       catchError(error => {
         return of(EMPTY);
       })
