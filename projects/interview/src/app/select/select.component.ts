@@ -74,17 +74,13 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private api: ApiService) {}
 
   get iconState(): 'close' | 'delete' | 'search' {
-    try {
-      if (this.trigger.menuOpen && this.searchBar.dirty) {
+      if (!!this.trigger && this.trigger.menuOpen && this.searchBar.dirty) {
         return 'delete';
-      } else if (!this.trigger.menuOpen && this.searchBar.dirty) {
+      } else if (!!this.trigger && !this.trigger.menuOpen && this.searchBar.dirty) {
         return 'close';
       } else {
         return 'search';
       }
-    } catch {
-      return 'search';
-    }
   }
 
   onClear() {

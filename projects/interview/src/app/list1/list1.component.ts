@@ -6,12 +6,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from '../select/select.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-list1',
   standalone: true,
   imports: [
     CommonModule,
+    HttpClientModule,
     ListSkeletonComponent,
     MatInputModule,
     MatIconModule,

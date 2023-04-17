@@ -9,9 +9,7 @@ import { ApiResponse, DataResponse } from '../models/ApiResponse.model';
 export class ApiService implements OnDestroy {
   urlAddress: string;
   version: string = 'v1';
-
   sub = new SubSink();
-
   executeCRUD: Subject<[number, number]> = new Subject();
   onDataUpdated: Subject<string> = new Subject(); //type this
 
@@ -23,9 +21,14 @@ export class ApiService implements OnDestroy {
     this.onPOSTcall();
   }
 
-  // this method will be only implemented here, since is not required in lists.
+  getRawData(): Observable<DataResponse> {
+    return this.http
+      .get<ApiResponse<DataResponse>>(`${this.baseUrl}${this.version}/data`)
+      .pipe(map((api) => api['data']['data']));
+  }
+
   handleData(rule: number, option: number) {
-    this.executeCRUD.next([rule, option]); // on post, this method call the subject to emit
+    this.executeCRUD.next([rule, option]);
   }
 
   onPOSTcall() {
@@ -51,13 +54,7 @@ export class ApiService implements OnDestroy {
           this.onDataUpdated.next('updated');
         })
       )
-      .subscribe((rs) => console.log({ rs })); // raw data from get is emitted
-  }
-
-  getRawData(): Observable<DataResponse> {
-    return this.http
-      .get<ApiResponse<DataResponse>>(`${this.baseUrl}${this.version}/data`)
-      .pipe(map((api) => api['data']['data']));
+      .subscribe((rs) => console.log({ rs }));
   }
 
   ngOnDestroy() {

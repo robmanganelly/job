@@ -9,7 +9,7 @@ import { DataResponse } from '../models/ApiResponse.model';
 @Injectable({
   providedIn: 'root'
 })
-export class DataResolver {
+export class DataResolver { // TODO change to function. class approach deprecated in angular 15
   constructor(private api: ApiService) {}
   resolve(route: ActivatedRouteSnapshot): Observable<DataResponse| typeof EMPTY> {
     return this.api.getRawData()
