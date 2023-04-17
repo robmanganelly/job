@@ -1,8 +1,6 @@
 import { DataResponse } from "../models/ApiResponse.model";
 
 export function traverseData(data: DataResponse, word: string) {
-    //console.log("traverseData");
-    //console.log(data);
 
     let results: string[] = [];
     let regexp = new RegExp(word, 'i');
@@ -31,7 +29,6 @@ export function traverseData(data: DataResponse, word: string) {
           } else {
             for (let group of oneAccountGroups) {
               let networks = flatNetworks[group];
-              //console.log('networks for group: ' + group+': '+networks);
               if (!!networks && networks.some((s) => regexp.test(s))) {
                 results.push(`${accountName}-${accId}`);
                 continue;
