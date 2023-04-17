@@ -36,6 +36,7 @@ export class ListSkeletonComponent {
   @Input() title: string = 'titleHERe';
   @Input() next: string = '';
   @Input() dataSource!: Observable<TableData[]>; //TODO implement strong typing here.
+  @Input() viewActions = true;
 
   showSecondRow = false;
 
