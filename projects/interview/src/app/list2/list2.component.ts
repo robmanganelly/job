@@ -1,40 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SelectComponent } from '../select/select.component';
-import { isString } from 'lodash';
+import { MatButtonModule } from '@angular/material/button';
+import { StateService } from '../services/state.service';
+import { map, take } from 'rxjs';
+import { ApiResponse, DataResponse } from '../models/ApiResponse.model';
+import { SubSink } from 'subsink';
+import { TableData } from '../models/TableData.model';
 
 @Component({
   selector: 'app-list2',
   standalone: true,
-  imports: [CommonModule, ListSkeletonComponent, SelectComponent],
+  imports: [
+    CommonModule,
+    ListSkeletonComponent,
+    SelectComponent,
+    MatButtonModule,
+  ],
   templateUrl: './list2.component.html',
   styleUrls: ['./list2.component.scss'],
 })
-export class List2Component {
-  selected = 'John-acb';
-  items: { name: string; id: string }[] = [
-    { name: 'John  Doe', id: '1123-adc1' },
-    { name: 'Mary Poppins', id: '24b9-6547' },
-    { name: 'Peter Jackson', id: '1fe1-ccd3' },
-    { name: 'Susan Saran', id: '49a1-1155' },
-    { name: 'Mike Myers', id: '1235-cd74' },
-    { name: 'Laura Paussini', id: '4fcb-1a39' },
-    { name: 'Bob Marley', id: '1322-3417' },
-    { name: 'Alice in Wonder', id: '453d-12a8' },
-  ];
+export class List2Component implements OnInit , OnDestroy {
+  private sub = new SubSink();
 
-  valFn = function (value:{ name: string; id: string }) {
-      return `${value.name}-${value.id}`;
-    }
+  selected: string = '';
+  items: any;
 
-  filterFn: Function = function (item: {name: string, id: string}, word:string) {
-      return new RegExp(word, 'i').test(`${item.name}-${item.id}`);
-  }
+  data!: DataResponse;
+
+  valFn = function (value: TableData) {
+    return `${value.id}`;
+  };
+
+  filterFn: Function;
 
   // dummy
-  output: string="";
-  onUpdate(v: string){this.output = v}
+  output: string = '';
+  onUpdate(v: string) {
+    this.output = v;
+  }
+
+  get usersCount(): number {
+    return Object.keys(this.data.accountIds).length || 0;
+  }
+  get networksCount(): number {
+    return this.data.groups.map((g) => g.networks).flat().length || 0;
+  }
+  get groupsCount(): number {
+    return this.data.groups.length || 0;
+  }
+
+  constructor(private state: StateService) {
+    this.filterFn = this.state.filterResults;
+  }
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+
+  loadData() {
+    this.sub.sink = this.state.byPassState().subscribe((data) => {
+      this.data = data;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 }

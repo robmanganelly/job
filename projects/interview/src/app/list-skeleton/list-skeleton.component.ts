@@ -6,7 +6,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { StateService } from '../services/state.service';
-import { DataTableComponent } from '../data-table/data-table.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import { TableData } from '../models/TableData.model';
   standalone: true,
   imports: [
     CommonModule,
-    DataTableComponent,
     FormsModule,
     MatButtonModule,
     MatFormFieldModule,

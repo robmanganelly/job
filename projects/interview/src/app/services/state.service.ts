@@ -26,8 +26,12 @@ export class StateService {
     return this.api.getRawData().pipe(map(raw=>this.filterResults(raw,withValue)));
   }
 
+  byPassState(){
+    return this.api.getRawData();
+  }
 
-  private filterResults(data:DataResponse,searchFor:string): TableData[]{ //TODO heavyweight logic here
+
+  filterResults(data:DataResponse,searchFor:string): TableData[]{ //TODO heavyweight logic here
 
     let result: TableData[] = [];
 
