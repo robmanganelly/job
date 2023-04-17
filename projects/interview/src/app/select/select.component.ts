@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -15,11 +14,10 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { SubSink } from 'subsink';
 import { debounceTime, tap } from 'rxjs';
 import {
-  MatMenu,
   MatMenuItem,
   MatMenuModule,
   MatMenuTrigger,
@@ -53,14 +51,14 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // prop bindings
   @Input() filterFn!: Function;
-  @Input() items!: any[] | object;
+  @Input() items!: string[] | object;
   /**
    * The number of milliseconds to debounce the search.
    * Use this property to set the reactivity of the search bar.
    * On Heavy queries, it may cause performance issues.
    */
   @Input() reactivity: number = 250;
-  @Input() valFn!: (v: string[]|object) => string[];
+  @Input() valFn!: (v: any) => string[];
 
   //two way binding
   @Input() selected!: string;
@@ -146,6 +144,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private processValue(searchTerm: string) {
     //process using hash table, to avoid recalculating values on complex operations.
+    console.log('callingprocessValue(searchTerm);')
+    console.log({items:this.items,searchTerm:searchTerm})
     let key = this.__keyMaker(this.items, searchTerm);
     if (this.hashTable.has(key)) {
       console.log('using cache');

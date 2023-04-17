@@ -39,8 +39,8 @@ export class List1Component {
     { name: 'Alice in Wonder', id: '453d-12a8' },
   ];
 
-  valFn = function (value:{ name: string; id: string }) {
-      return `${value.name}-${value.id}`;
+  valFn = function (value:({ name: string; id: string })[]) {
+      return value.map(v=>(`${v.name}-${v.id}`));
     }
 
   filterFn: Function = function (items: {name: string, id: string}[], word:string) {
