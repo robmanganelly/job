@@ -40,12 +40,10 @@ export class StateService {
         let snake = ''
       }
     )
-
-
-
     return result;
   }
 
+   
 
   private __traverse(data: any, withValue:string, bucket: any[]):void{
     forIn(data, (value, key) => {
