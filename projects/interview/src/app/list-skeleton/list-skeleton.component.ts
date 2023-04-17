@@ -11,7 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ApiService } from '../services/api.service';
-import { TableData } from '../models/TableData.model';
 @Component({
   selector: 'app-list-skeleton',
   standalone: true,
@@ -33,7 +32,6 @@ import { TableData } from '../models/TableData.model';
 export class ListSkeletonComponent {
   @Input() title: string = 'titleHERe';
   @Input() next: string = '';
-  @Input() dataSource!: Observable<TableData[]>; //TODO implement strong typing here.
   @Input() viewActions = true;
 
   showSecondRow = false;

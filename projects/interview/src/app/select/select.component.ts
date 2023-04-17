@@ -43,7 +43,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   private hashTable = new Map<string, any>();
   private sub = new SubSink();
 
-  protected __items: any[] = [];
+  protected __items: string[] | object = [];
   protected searchBar = new FormControl('');
 
   //view props
@@ -53,14 +53,14 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // prop bindings
   @Input() filterFn!: Function;
-  @Input() items!: any[];
+  @Input() items!: any[] | object;
   /**
    * The number of milliseconds to debounce the search.
    * Use this property to set the reactivity of the search bar.
    * On Heavy queries, it may cause performance issues.
    */
   @Input() reactivity: number = 250;
-  @Input() valFn!: (v: any) => string;
+  @Input() valFn!: (v: string[]|object) => string[];
 
   //two way binding
   @Input() selected!: string;
@@ -110,7 +110,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.__items = [...this.items];
+    this.__items = Array.isArray(this.items) ?  [...this.items] : {...this.items};
 
     this.sub.sink = this.searchBar.valueChanges
       .pipe(
@@ -123,7 +123,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get filteredItems(): string[] {
-    return this.__items.map((item) => this.valFn(item));
+    return this.valFn(this.items);
   }
 
   ngOnDestroy(): void {

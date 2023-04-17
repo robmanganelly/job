@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { SelectComponent } from '../select/select.component';
 import { MatButtonModule } from '@angular/material/button';
 import { StateService } from '../services/state.service';
-import { map, take } from 'rxjs';
-import { ApiResponse, DataResponse } from '../models/ApiResponse.model';
+import { DataResponse } from '../models/ApiResponse.model';
 import { SubSink } from 'subsink';
-import { TableData } from '../models/TableData.model';
 
 @Component({
   selector: 'app-list2',
@@ -31,8 +27,8 @@ export class List2Component implements OnInit , OnDestroy {
 
   data!: DataResponse;
 
-  valFn = function (value: TableData) {
-    return `${value.id}`;
+  valFn = function (value: string) {
+    return `${value}`;
   };
 
   filterFn: Function;
