@@ -152,9 +152,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       this.__items = this.hashTable.get(key);
     } else {
       console.log('calculating');
-      this.__items = this.items.filter((item) =>
-        this.filterFn(item, searchTerm)
-      );
+      this.__items = this.filterFn(this.items, searchTerm);
       this.hashTable.set(key, this.__items);
     }
   }
