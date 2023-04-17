@@ -136,9 +136,6 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
         this.trigger.openMenu();
       }
     } catch(e) {
-      //console.log(e);
-      //console.log(this.filteredItems)
-      //console.log('click error: view not ready');
     }
   }
 
@@ -148,25 +145,16 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private processValue(searchTerm: string) {
-    //process using hash table, to avoid recalculating values on complex operations.
-    //console.log('callingprocessValue(searchTerm);');
-    //console.log({ items: this.items, searchTerm: searchTerm });
     let key = this.__keyMaker(this.items, searchTerm);
     if (this.hashTable.has(key)) {
-      //console.log('using cache');
       this.__items = this.hashTable.get(key);
     } else {
-      //console.log('calculating');
       this.__items = this.filterFn(this.items, searchTerm);
-      //console.log('{ items: this.__items}');
-      //console.log({ items: this.__items});
       this.hashTable.set(key, this.__items);
     }
   }
 
   private __keyMaker(o: any, s: string): string {
-    //console.log('keyMaker(o, s);');
-    //console.log({s});
     return s.trim() + JSON.stringify(o);
   }
 }

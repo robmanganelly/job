@@ -44,7 +44,8 @@ export class List1Component {
     }
 
   filterFn: Function = function (items: {name: string, id: string}[], word:string) {
-      return items.filter(item=>new RegExp(word, 'i').test(`${item.name}-${item.id}`));
+      return items.filter(item=>new RegExp(word, 'i').test(`${item.name}-${item.id}`)).
+      map(v=>(`${v.name}-${v.id}`));
   }
 
   // dummy
