@@ -17,7 +17,7 @@ export function traverseData(data: DataResponse, word: string) {
     for (let prop in data.accountIds) {
       let accountName = prop;
       let accId = data.accountIds[accountName];
-      if (regexp.test(accountName) || regexp.test(accId)) {
+      if (regexp.test(`${accountName}-${accId}`)) {
         results.push(`${accountName}-${accId}`);
         continue;
       } else {
