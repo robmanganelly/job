@@ -46,7 +46,7 @@ export class ApiService implements OnDestroy{
 
   getRawData(): Observable<DataResponse> {
     return this.http.get<ApiResponse<DataResponse>>(`${this.baseUrl}${this.version}/data`).pipe(
-      map(api=>api['data']['data'])
+      map(api=>api['data']['data']),
     )
   }
 

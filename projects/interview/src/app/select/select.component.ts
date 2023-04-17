@@ -16,12 +16,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SubSink } from 'subsink';
-import { debounceTime, tap } from 'rxjs';
+import { Subject, debounceTime, tap } from 'rxjs';
 import {
   MatMenuItem,
   MatMenuModule,
   MatMenuTrigger,
 } from '@angular/material/menu';
+import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-select',
   standalone: true,
@@ -39,10 +40,12 @@ import {
 })
 export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   private hashTable = new Map<string, any>();
+  private dataHashTable = new Map<any, any>();
   private sub = new SubSink();
 
   protected __items: string[] | object = [];
   protected searchBar = new FormControl('');
+
 
   //view props
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
@@ -67,7 +70,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   // event binding
   @Output() change: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private api:ApiService) {}
 
   get iconState(): 'close' | 'delete' | 'search' {
     try {
@@ -110,6 +113,11 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.__items = this.filterFn(this.items, '');
 
+    this.sub.sink= this.api.onDataUpdated.subscribe(()=>{
+      // this behavior is just for demonstration purposes, the actual implementation should not use this approach
+      this.__items = this.filterFn(this.items, '');
+    })
+
     this.sub.sink = this.searchBar.valueChanges
       .pipe(
         tap((v) => (!!v ? this.change.emit(v) : null)), // value emission should not be debounced
@@ -121,7 +129,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get filteredItems(): string[] {
-    return this.__items as string[];
+    return (this.__items as string[]).length > 10 ? (this.__items as string[]).slice(0, 10) : this.__items as string[];
   }
 
   ngOnDestroy(): void {
@@ -147,14 +155,21 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   private processValue(searchTerm: string) {
     let key = this.__keyMaker(this.items, searchTerm);
     if (this.hashTable.has(key)) {
+      console.log('returned cached value');
       this.__items = this.hashTable.get(key);
     } else {
+      console.log('calculating value');
       this.__items = this.filterFn(this.items, searchTerm);
       this.hashTable.set(key, this.__items);
     }
   }
 
   private __keyMaker(o: any, s: string): string {
-    return s.trim() + JSON.stringify(o);
+    if (this.dataHashTable.has(o)){
+      return s.trim()+this.dataHashTable.get(o);
+    }
+    let key = s.trim() + JSON.stringify(o)
+    this.hashTable.set(o, key);
+    return key;
   }
 }

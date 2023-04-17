@@ -1,32 +1,40 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <a [routerLink]="['/main']"   class="nav-item">
+    <a [routerLink]="['/main']" class="nav-item">
       <mat-icon> arrow_back_ios</mat-icon> Home
     </a>
-    <span id="title">{{"Version "+title}}</span>
-    <button mat-button
-    *ngIf="viewActions"
-        (click)="showSecondRow = !showSecondRow"
-        id="actions">Edit Data<mat-icon>{{ !showSecondRow ? 'expand_more' : 'expand_less'}}</mat-icon></button>
+    <span id="title">{{ "Version " + title }}</span>
+    <button
+      mat-button
+      *ngIf="viewActions"
+      (click)="showSecondRow = !showSecondRow"
+      id="actions"
+    >
+      Edit Data<mat-icon>{{
+        !showSecondRow ? "expand_more" : "expand_less"
+      }}</mat-icon>
+    </button>
     <span class="horizontal-spacer"></span>
-    <a [routerLink]="nextRoute"   class="nav-item">
-      {{'Version '+ next}}<mat-icon> arrow_forward_ios</mat-icon>
+    <a [routerLink]="nextRoute" class="nav-item">
+      {{ "Version " + next }}<mat-icon> arrow_forward_ios</mat-icon>
     </a>
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="showSecondRow && viewActions">
     <ng-container *ngFor="let action of actions; let i = index">
-    <div class="action-group" >
-      <div>{{action.rule}}</div>
-      <div>
-          <button (click)="action.call(action.rule, option)" mat-button *ngFor="let option of action.options">{{option}}</button>
+      <div class="action-group">
+        <div>{{ action.rule }}</div>
+        <div>
+          <button
+            (click)="action.call(action.rule, option)"
+            mat-button
+            *ngFor="let option of action.options"
+          >
+            {{ option }}
+          </button>
+        </div>
       </div>
-    </div>
-    <span *ngIf="i < 2" class="horizontal-spacer"></span>
-  </ng-container>
+      <span *ngIf="i < 2" class="horizontal-spacer"></span>
+    </ng-container>
   </mat-toolbar-row>
 </mat-toolbar>
-
-
 <ng-content #content></ng-content>
-
-<!-- <app-data-table [dataSource]="dataSource"></app-data-table> -->
