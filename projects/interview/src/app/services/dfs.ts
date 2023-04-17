@@ -31,7 +31,8 @@ export function traverseData(data: DataResponse, word: string) {
           } else {
             for (let group of oneAccountGroups) {
               let networks = flatNetworks[group];
-              if (networks.some((s) => regexp.test(s))) {
+              console.log('networks for group: ' + group+': '+networks);
+              if (!!networks && networks.some((s) => regexp.test(s))) {
                 results.push(`${accountName}-${accId}`);
                 continue;
               }

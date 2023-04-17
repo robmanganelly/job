@@ -108,9 +108,9 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.__items = Array.isArray(this.items) ?  [...this.items] : this.filterFn(this.items,'');
-    console.log('onInit selectComponent');
-    console.log('this.__items',this.__items);
+    this.__items = Array.isArray(this.items)
+      ? [...this.items]
+      : this.filterFn(this.items, '');
 
     this.sub.sink = this.searchBar.valueChanges
       .pipe(
@@ -123,18 +123,23 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get filteredItems(): string[] {
-    return this.valFn(this.items);
+    return this.__items as string[];
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  onClickInput(){
-    try{
-    if (this.iconState === 'search') this.suffixIcon._elementRef.nativeElement.click();
-    else if (this.iconState === 'close') this.trigger.openMenu();
-    }catch{
+  onClickInput() {
+    try {
+      if (this.iconState === 'search')
+        this.suffixIcon._elementRef.nativeElement.click();
+      else if (this.iconState === 'close') {
+        this.trigger.openMenu();
+      }
+    } catch(e) {
+      console.log(e);
+      console.log(this.filteredItems)
       console.log('click error: view not ready');
     }
   }
@@ -146,8 +151,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private processValue(searchTerm: string) {
     //process using hash table, to avoid recalculating values on complex operations.
-    console.log('callingprocessValue(searchTerm);')
-    console.log({items:this.items,searchTerm:searchTerm})
+    console.log('callingprocessValue(searchTerm);');
+    console.log({ items: this.items, searchTerm: searchTerm });
     let key = this.__keyMaker(this.items, searchTerm);
     if (this.hashTable.has(key)) {
       console.log('using cache');
@@ -155,6 +160,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       console.log('calculating');
       this.__items = this.filterFn(this.items, searchTerm);
+      console.log('{ items: this.__items}');
+      console.log({ items: this.__items});
       this.hashTable.set(key, this.__items);
     }
   }
