@@ -1,29 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ApiService } from '../services/api.service';
 import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from '../select/select.component';
-// import { Api2Service } from '../services/api2.service';
 
 @Component({
   selector: 'app-list1',
   standalone: true,
   imports: [
     CommonModule,
+    ListSkeletonComponent,
     MatInputModule,
     MatIconModule,
     MatFormFieldModule,
-    ListSkeletonComponent,
     ReactiveFormsModule,
     SelectComponent,
   ],
   templateUrl: './list1.component.html',
   styleUrls: ['./list1.component.scss'],
-  providers: [{ provide: ApiService, useClass: ApiService }],
 })
 export class List1Component {
 

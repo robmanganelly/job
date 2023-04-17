@@ -10,16 +10,26 @@
       ></app-select>
     </div>
     <div class="label-box">
-      <div>Selected: <b>{{ selected }}</b></div>
-      <small>shows the value passed to &lt;app-select&gt;&lt;/app-select;&gt; </small>
+      <div>
+        Selected: <b>{{ selected }}</b>
+      </div>
+      <small
+        >shows the value passed to &lt;app-select&gt;&lt;/app-select;&gt;
+      </small>
       <hr />
       <div>Items:</div>
-      <small>Shows the item that we passed we called the component. In this version is a fixed array of [name, id]</small>
-      <div *ngFor="let item of items">{{item | json}}</div>
+      <small
+        >Shows the item that we passed we called the component. In this version
+        is a fixed array of [name, id]</small
+      >
+      <div *ngFor="let item of items">{{ item | json }}</div>
       <hr />
-      <div>change Event: <b>{{ output }}</b></div>
-      <small>the task required we implemented a function to callback whenever the value was updated, in this
-        case a simple log was used
+      <div>
+        change Event: <b>{{ output }}</b>
+      </div>
+      <small
+        >the task required we implemented a function to callback whenever the
+        value was updated, in this case a simple log was used
       </small>
     </div>
   </div>

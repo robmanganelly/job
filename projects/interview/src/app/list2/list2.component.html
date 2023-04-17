@@ -2,31 +2,38 @@
   <div class="container">
     <div class="list-box">
       <app-select
-      [(selected)]="selected"
-      [items]="data"
-      [valFn]="valFn"
-      [filterFn]="filterFn"
-      (change)="onUpdate($event)"
+        [(selected)]="selected"
+        [(items)]="data"
+        [valFn]="valFn"
+        [filterFn]="filterFn"
+        (change)="onUpdate($event)"
       ></app-select>
     </div>
 
     <div class="label-box">
-      <h3>This version queries the server for data, and serves statically to the list</h3>
-      <p>The filter function and the value function are provided from outside the component,
-         <br>&lt;app-select&gt;&lt;/app-select&gt;
-         components does not supposed to know the data being received.
-        </p>
-        <h4>How to query?</h4>
-        <p>you can mock posting data using the tool bar actions, and you can load this data with this button</p>
-        <button mat-raised-button color="primary" (click)="loadData()">Load Data</button><br>
-        <h4>Current state of Data being queried</h4>
-        <div>
-          <span>{{usersCount}} Users </span>
-          <span>{{groupsCount}} Groups </span>
-          <span>{{networksCount }} Networks </span>
-        </div>
+      <h3>
+        This version queries the server for data, and serves statically to the
+        list
+      </h3>
+      <p>
+        The filter function and the value function are provided from outside the
+        component, <br />&lt;app-select&gt;&lt;/app-select&gt; components does
+        not supposed to know the data being received.
+      </p>
+      <h4>How to query?</h4>
+      <p>
+        you can mock posting data using the tool bar actions, and you can load
+        this data with this button
+      </p>
+      <button mat-raised-button color="primary" (click)="onLoadData()">
+        Load Data</button
+      ><br />
+      <h4>Current state of Data being queried</h4>
+      <div>
+        <span>{{ usersCount }} Users </span>
+        <span>{{ groupsCount }} Groups </span>
+        <span>{{ networksCount }} Networks </span>
+      </div>
     </div>
-
-</div>
-
+  </div>
 </app-list-skeleton>

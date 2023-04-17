@@ -1,14 +1,14 @@
+import { ApiService } from '../services/api.service';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
-import { SelectComponent } from '../select/select.component';
-import { MatButtonModule } from '@angular/material/button';
-import { StateService } from '../services/state.service';
+import { debounceTime, map, switchMap, tap } from 'rxjs';
 import { DataResponse } from '../models/ApiResponse.model';
+import { ListSkeletonComponent } from '../list-skeleton/list-skeleton.component';
+import { MatButtonModule } from '@angular/material/button';
 import { SubSink } from 'subsink';
-import { ActivatedRoute } from '@angular/router';
-import { debounceTime, map } from 'rxjs';
-import { ApiService } from '../services/api.service';
+import { StateService } from '../services/state.service';
+import { SelectComponent } from '../select/select.component';
 
 @Component({
   selector: 'app-list2',
@@ -16,8 +16,8 @@ import { ApiService } from '../services/api.service';
   imports: [
     CommonModule,
     ListSkeletonComponent,
-    SelectComponent,
     MatButtonModule,
+    SelectComponent,
   ],
   templateUrl: './list2.component.html',
   styleUrls: ['./list2.component.scss'],
@@ -25,30 +25,25 @@ import { ApiService } from '../services/api.service';
 export class List2Component implements OnInit, OnDestroy {
   private sub = new SubSink();
 
-  selected: string = '';
-
-  data!: DataResponse;
-
-  valFn = function (value: string[]) {
-    return value;
-  };
-
-  filterFn: Function;
-
   // dummy
+  data!: DataResponse;
+  filterFn: Function;
+  groupsCount: number = 0;
   output: string = '';
   onUpdate(v: string) {
     this.output = v;
   }
-
-  usersCount: number = 0;
   networksCount: number = 0;
-  groupsCount: number = 0;
+  selected: string = '';
+  usersCount: number = 0;
+  valFn = function (value: string[]) {
+    return value;
+  };
 
   constructor(
-    private state: StateService,
     private api: ApiService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private state: StateService
   ) {
     this.filterFn = this.state.filterResults;
   }
@@ -58,16 +53,15 @@ export class List2Component implements OnInit, OnDestroy {
       .pipe(map((d) => d['data']))
       .subscribe(this.__handle.bind(this));
 
-    this.sub.sink = this.api.onDataUpdated.pipe(debounceTime(1000)).subscribe((_) => {
-      console.log('sub');
-      this.loadData()
-    });
+    this.sub.sink = this.api.onDataUpdated.pipe(
+        tap((c) => console.log('received')),
+        switchMap((_) => this.state.byPassState()),
+      )
+      .subscribe((rs) => this.__handle(rs));
   }
 
-  loadData() {
-    this.sub.sink = this.state
-      .byPassState()
-      .subscribe(this.__handle.bind(this));
+  onLoadData() {
+    this.api.onDataUpdated.next('from Button');
   }
 
   private __handle(__data: DataResponse): void {

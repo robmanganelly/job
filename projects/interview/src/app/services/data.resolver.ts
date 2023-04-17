@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { EMPTY, EmptyError, Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { Api2Service } from './api2.service';
+import { EMPTY, Observable, of } from 'rxjs';
+import { catchError, } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { DataResponse } from '../models/ApiResponse.model';
 

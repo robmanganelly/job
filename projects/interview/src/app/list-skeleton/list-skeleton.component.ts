@@ -25,7 +25,6 @@ import { RouterModule } from '@angular/router';
   ],
   templateUrl: './list-skeleton.component.html',
   styleUrls: ['./list-skeleton.component.scss'],
-  providers:[{provide: ApiService, useClass: ApiService}]
 })
 export class ListSkeletonComponent {
 
