@@ -25,7 +25,6 @@ export class List2Component implements OnInit, OnDestroy {
   private sub = new SubSink();
 
   selected: string = '';
-  items: any;
 
   data!: DataResponse;
 
@@ -65,6 +64,7 @@ export class List2Component implements OnInit, OnDestroy {
   }
 
   private __handle(__data: DataResponse): void {
+    console.log('data', __data);
     this.data = __data;
     this.usersCount = Object.keys(__data).length || 0;
     this.networksCount =

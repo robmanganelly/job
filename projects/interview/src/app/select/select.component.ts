@@ -108,7 +108,11 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('onInit selectComponent');
+    console.log('this.__items',this.__items);
     this.__items = Array.isArray(this.items) ?  [...this.items] : {...this.items};
+    console.log('this.items',this.items);
+    console.log('this.__items',this.__items);
 
     this.sub.sink = this.searchBar.valueChanges
       .pipe(
